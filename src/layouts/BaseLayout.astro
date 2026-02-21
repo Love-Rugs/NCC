@@ -32,6 +32,18 @@ const { title, description = siteSettings.tagline } = Astro.props;
     />
   </head>
   <body>
+    <script is:inline>
+      (() => {
+        const hash = window.location.hash || "";
+        const isIdentityToken =
+          hash.includes("recovery_token=") ||
+          hash.includes("confirmation_token=") ||
+          hash.includes("invite_token=");
+        if (isIdentityToken && !window.location.pathname.startsWith("/admin")) {
+          window.location.replace(`/admin/${hash}`);
+        }
+      })();
+    </script>
     <a class="skip-link" href="#main">Skip to content</a>
     <Header pathname={Astro.url.pathname} clubName={siteSettings.shortName} logoPath={siteSettings.logoPath} />
     <main class="main" id="main">
