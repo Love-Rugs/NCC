@@ -1,0 +1,48 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  sponsor: CollectionEntry<"sponsors">;
+}
+
+const { sponsor } = Astro.props;
+const typeLabel = sponsor.data.sponsorshipType.replaceAll("_", " ");
+---
+
+<article class="card sponsor-card reveal">
+  <div class="sponsor-media">
+    <img src={sponsor.data.logoOrImage} alt={`${sponsor.data.name} logo`} loading="lazy" width="600" height="360" />
+  </div>
+  <div class="sponsor-content">
+    <h3>{sponsor.data.name}</h3>
+    <p>{sponsor.data.blurb}</p>
+    <div class="chips">
+      <span class="chip">{typeLabel}</span>
+      <span class="chip">{sponsor.data.teamScope}</span>
+    </div>
+    <p class="muted"><strong>Support:</strong> {sponsor.data.whatTheySponsored}</p>
+
+    {(sponsor.data.ctaUrl || sponsor.data.websiteUrl) && (
+      <p>
+        <a href={sponsor.data.ctaUrl ?? sponsor.data.websiteUrl} target="_blank" rel="noreferrer">
+          {sponsor.data.ctaLabel || "Visit Sponsor"}
+        </a>
+      </p>
+    )}
+
+    {sponsor.data.showPublicContact && (
+      <div class="sponsor-contact">
+        <h4>Contact</h4>
+        <ul>
+          {sponsor.data.contactName && <li>{sponsor.data.contactName}</li>}
+          {sponsor.data.contactEmail && (
+            <li>
+              <a href={`mailto:${sponsor.data.contactEmail}`}>{sponsor.data.contactEmail}</a>
+            </li>
+          )}
+          {sponsor.data.contactPhone && <li>{sponsor.data.contactPhone}</li>}
+        </ul>
+      </div>
+    )}
+  </div>
+</article>

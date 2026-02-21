@@ -158,3 +158,64 @@ input:focus, textarea:focus, select:focus { outline: 2px solid var(--sky-400); o
 @media (prefers-reduced-motion: reduce) {
   .reveal { opacity: 1; transform: none; transition: none; }
 }
+.sponsor-grid {
+  align-items: stretch;
+}
+
+.sponsor-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.sponsor-media {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #d5e3f3;
+  background: #f4f8ff;
+  margin-bottom: 0.8rem;
+}
+
+.sponsor-media img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  display: block;
+}
+
+.sponsor-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  height: 100%;
+}
+
+.sponsor-contact {
+  background: #f4f8ff;
+  border-radius: 10px;
+  padding: 0.6rem;
+  border: 1px solid #d5e3f3;
+}
+
+.sponsor-contact h4 {
+  margin: 0 0 0.35rem;
+}
+
+.sponsor-contact ul {
+  margin: 0;
+  padding-left: 1rem;
+}
+
+.sponsor-empty {
+  text-align: center;
+}
+
+.filter-chip {
+  border: 0;
+  cursor: pointer;
+}
+
+.filter-chip.active {
+  background: var(--navy-900);
+  color: #fff;
+}

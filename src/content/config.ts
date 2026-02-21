@@ -54,6 +54,28 @@ const pages = defineCollection({
   })
 });
 
+const sponsors = defineCollection({
+  type: "content",
+  schema: z.object({
+    name: z.string(),
+    logoOrImage: z.string(),
+    blurb: z.string(),
+    sponsorshipType: z.enum(["main_kit", "team_sponsor", "social_supporter", "event_festival", "other"]),
+    teamScope: z.enum(["club", "2017s", "2018s", "2019s", "2020s"]),
+    whatTheySponsored: z.string(),
+    isActive: z.boolean().default(true),
+    featuredOrder: z.number().int().optional(),
+    websiteUrl: z.string().url().optional(),
+    showPublicContact: z.boolean().default(false),
+    contactName: z.string().optional(),
+    contactEmail: z.string().email().optional(),
+    contactPhone: z.string().optional(),
+    ctaLabel: z.string().default("Visit Sponsor"),
+    ctaUrl: z.string().url().optional(),
+    startedOn: z.coerce.date().optional()
+  })
+});
+
 const siteSettings = defineCollection({
   type: "data",
   schema: z.object({
@@ -75,4 +97,4 @@ const siteSettings = defineCollection({
   })
 });
 
-export const collections = { news, teams, socialHighlights, pages, siteSettings };
+export const collections = { news, teams, socialHighlights, pages, sponsors, siteSettings };

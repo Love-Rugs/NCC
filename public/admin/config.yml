@@ -56,6 +56,32 @@ collections:
       - { label: "Hero Image", name: "heroImage", widget: "image", required: false }
       - { label: "Body", name: "body", widget: "markdown" }
 
+  - name: "sponsors"
+    label: "Sponsors"
+    folder: "src/content/sponsors"
+    create: true
+    slug: "{{slug}}"
+    format: "frontmatter"
+    extension: "md"
+    fields:
+      - { label: "Name", name: "name", widget: "string" }
+      - { label: "Logo or Image", name: "logoOrImage", widget: "image" }
+      - { label: "Blurb", name: "blurb", widget: "text", hint: "Keep this to around 140 characters for clean cards." }
+      - { label: "Sponsorship Type", name: "sponsorshipType", widget: "select", options: ["main_kit", "team_sponsor", "social_supporter", "event_festival", "other"] }
+      - { label: "Team Scope", name: "teamScope", widget: "select", options: ["club", "2017s", "2018s", "2019s", "2020s"] }
+      - { label: "What They Sponsored", name: "whatTheySponsored", widget: "string", hint: "Example: 2019s away kit + cones." }
+      - { label: "Active", name: "isActive", widget: "boolean", default: true }
+      - { label: "Featured Order", name: "featuredOrder", widget: "number", required: false, value_type: "int" }
+      - { label: "Website URL", name: "websiteUrl", widget: "string", required: false }
+      - { label: "Show Public Contact", name: "showPublicContact", widget: "boolean", default: false, hint: "Contact details are shown publicly only if enabled." }
+      - { label: "Contact Name", name: "contactName", widget: "string", required: false }
+      - { label: "Contact Email", name: "contactEmail", widget: "string", required: false }
+      - { label: "Contact Phone", name: "contactPhone", widget: "string", required: false }
+      - { label: "CTA Label", name: "ctaLabel", widget: "string", required: false, default: "Visit Sponsor" }
+      - { label: "CTA URL", name: "ctaUrl", widget: "string", required: false }
+      - { label: "Started On", name: "startedOn", widget: "datetime", required: false }
+      - { label: "Body", name: "body", widget: "markdown", required: false }
+
   - name: "socialHighlights"
     label: "Social Highlights"
     folder: "src/content/socialHighlights"

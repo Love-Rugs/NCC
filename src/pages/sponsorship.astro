@@ -1,0 +1,139 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SponsorCard from "../components/SponsorCard.astro";
+
+const sponsors = (await getCollection("sponsors"))
+  .filter((s) => s.data.isActive)
+  .sort((a, b) => {
+    const aOrder = a.data.featuredOrder ?? Number.MAX_SAFE_INTEGER;
+    const bOrder = b.data.featuredOrder ?? Number.MAX_SAFE_INTEGER;
+    if (aOrder !== bOrder) return aOrder - bOrder;
+    const aDate = a.data.startedOn ? a.data.startedOn.getTime() : 0;
+    const bDate = b.data.startedOn ? b.data.startedOn.getTime() : 0;
+    return bDate - aDate;
+  });
+---
+
+<BaseLayout title="Sponsorship | North Calder Colts" description="Support North Calder Colts through sponsorship opportunities.">
+  <section class="hero reveal">
+    <div class="inner">
+      <div>
+        <h1>Sponsorship Opportunities</h1>
+        <p>Partner with North Calder Colts and support local youth football while growing your local brand presence.</p>
+        <div class="actions">
+          <a class="button primary" href="#sponsor-form">Enquire About Sponsorship</a>
+          <a class="button secondary" href="#our-sponsors">View Current Sponsors</a>
+        </div>
+      </div>
+      <figure class="hero-media">
+        <img src="/images/stock/team-training.jpg" alt="Youth football training session" width="1400" height="900" loading="lazy" />
+      </figure>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <header class="section-head">
+      <h2>Packages</h2>
+      <p class="lead">Flexible options from lead partner placements to social/event support.</p>
+    </header>
+    <div class="grid three">
+      <article class="card"><h3>Main Kit Sponsor</h3><p>Primary visibility on kit and club channels.</p></article>
+      <article class="card"><h3>Team Sponsor</h3><p>Support a specific age group such as 2019s or 2018s.</p></article>
+      <article class="card"><h3>Social/Event Supporter</h3><p>Shared digital exposure and event partnership opportunities.</p></article>
+    </div>
+  </section>
+
+  <section id="our-sponsors" class="section reveal">
+    <header class="section-head">
+      <h2>Our Sponsors</h2>
+      <p class="lead">Community partners helping fund equipment, kit and opportunities.</p>
+    </header>
+
+    {
+      sponsors.length ? (
+        <div class="grid two sponsor-grid">
+          {sponsors.map((sponsor) => <SponsorCard sponsor={sponsor} />)}
+        </div>
+      ) : (
+        <article class="card sponsor-empty">
+          <h3>Be one of our founding sponsors</h3>
+          <p>We are currently welcoming new sponsor partners across club-wide and team-level packages.</p>
+          <a class="button primary" href="#sponsor-form">Start Sponsorship Enquiry</a>
+        </article>
+      )
+    }
+  </section>
+
+  <section id="sponsor-form" class="section reveal">
+    <header class="section-head">
+      <h2>Sponsorship Enquiry</h2>
+      <p class="lead">Tell us your interests and we will follow up with tailored options.</p>
+    </header>
+
+    <form name="sponsorship-enquiry" method="POST" action="/sponsorship/thanks" data-netlify="true" data-netlify-honeypot="sponsor-bot-field" class="form-shell">
+      <input type="hidden" name="form-name" value="sponsorship-enquiry" />
+      <p style="display:none;"><label>Do not fill this out if you are human: <input name="sponsor-bot-field" /></label></p>
+
+      <div class="form-grid">
+        <div class="field">
+          <label for="business-name">Business Name</label>
+          <input id="business-name" name="businessName" type="text" required />
+        </div>
+        <div class="field">
+          <label for="contact-name">Contact Name</label>
+          <input id="contact-name" name="contactName" type="text" required />
+        </div>
+        <div class="field">
+          <label for="sponsor-email">Email</label>
+          <input id="sponsor-email" name="email" type="email" required />
+        </div>
+        <div class="field">
+          <label for="sponsor-phone">Phone</label>
+          <input id="sponsor-phone" name="phone" type="tel" required />
+        </div>
+        <div class="field">
+          <label for="interest-type">Sponsorship Interest</label>
+          <select id="interest-type" name="sponsorshipInterestType" required>
+            <option value="">Select option</option>
+            <option value="main_kit">Main Kit Sponsor</option>
+            <option value="team_sponsor">Team Sponsor</option>
+            <option value="social_supporter">Social Supporter</option>
+            <option value="event_festival">Event/Festival Sponsor</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="team-scope">Preferred Team Scope</label>
+          <select id="team-scope" name="preferredTeamScope" required>
+            <option value="club">Club-wide</option>
+            <option value="2017s">2017s</option>
+            <option value="2018s">2018s</option>
+            <option value="2019s">2019s</option>
+            <option value="2020s">2020s</option>
+          </select>
+        </div>
+        <div class="field full">
+          <label for="budget-band">Budget Band</label>
+          <select id="budget-band" name="budgetBand" required>
+            <option value="">Select range</option>
+            <option value="under-500">Under £500</option>
+            <option value="500-1000">£500 - £1,000</option>
+            <option value="1000-2500">£1,000 - £2,500</option>
+            <option value="2500-plus">£2,500+</option>
+          </select>
+        </div>
+        <div class="field full">
+          <label for="sponsor-message">Message</label>
+          <textarea id="sponsor-message" name="message" rows="5" required></textarea>
+        </div>
+        <div class="field full">
+          <label><input type="checkbox" name="consent" required /> I consent to North Calder Colts contacting me regarding sponsorship opportunities.</label>
+        </div>
+        <div class="field full" data-netlify-recaptcha="true"></div>
+      </div>
+
+      <p style="margin-top: 1rem;"><button class="button primary" type="submit">Submit Sponsorship Enquiry</button></p>
+    </form>
+  </section>
+</BaseLayout>
