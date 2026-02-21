@@ -1,0 +1,28 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const teams = (await getCollection("teams")).sort((a, b) => a.data.yearGroup.localeCompare(b.data.yearGroup));
+---
+
+<BaseLayout title="Teams | North Calder Colts" description="Explore North Calder Colts teams by birth year group.">
+  <section class="section">
+    <h1>Team Groups</h1>
+    <p class="lead">Select your age group for training info, availability and team updates.</p>
+    <div class="grid two">
+      {
+        teams.map((team) => (
+          <article class="card">
+            <span class={`badge ${team.data.status}`}>{team.data.status}</span>
+            <h2>{team.data.title}</h2>
+            <p>{team.data.intro}</p>
+            <p class="muted">
+              {team.data.trainingDay} | {team.data.trainingTime}
+            </p>
+            <a href={`/teams/${team.slug}`}>Open team page</a>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>

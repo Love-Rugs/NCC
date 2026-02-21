@@ -1,0 +1,25 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+const news = (await getCollection("news")).sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime());
+---
+
+<BaseLayout title="News | North Calder Colts" description="Latest North Calder Colts updates and announcements.">
+  <section class="section">
+    <h1>Club News</h1>
+    <p class="lead">Latest club and team updates for parents and players.</p>
+    <div class="grid two">
+      {
+        news.map((item) => (
+          <article class="card">
+            <p class="muted">{item.data.publishDate.toLocaleDateString("en-GB")}</p>
+            <h2>{item.data.title}</h2>
+            <p>{item.data.summary}</p>
+            <a href={`/news/${item.slug}`}>Read full story</a>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>

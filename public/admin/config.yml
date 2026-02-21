@@ -1,0 +1,109 @@
+backend:
+  name: github
+  repo: Love-Rugs/NCC
+  branch: main
+  base_url: https://YOUR-NETLIFY-SITE.netlify.app
+  auth_endpoint: /api/auth
+
+media_folder: "public/images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  - name: "news"
+    label: "News"
+    folder: "src/content/news"
+    create: true
+    slug: "{{slug}}"
+    format: "frontmatter"
+    extension: "md"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Summary", name: "summary", widget: "text" }
+      - { label: "Publish Date", name: "publishDate", widget: "datetime" }
+      - { label: "Cover Image", name: "coverImage", widget: "image", required: false }
+      - label: "Tags"
+        name: "tags"
+        widget: "list"
+        default: []
+      - { label: "Body", name: "body", widget: "markdown" }
+
+  - name: "teams"
+    label: "Teams"
+    folder: "src/content/teams"
+    create: true
+    slug: "{{slug}}"
+    format: "frontmatter"
+    extension: "md"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - {
+          label: "Year Group",
+          name: "yearGroup",
+          widget: "select",
+          options: ["2017s", "2018s", "2019s", "2020s"]
+        }
+      - { label: "Training Day", name: "trainingDay", widget: "string" }
+      - { label: "Training Time", name: "trainingTime", widget: "string" }
+      - { label: "Training Location", name: "trainingLocation", widget: "string" }
+      - { label: "Coach Role", name: "coachRole", widget: "string" }
+      - { label: "Intro", name: "intro", widget: "text" }
+      - {
+          label: "Status",
+          name: "status",
+          widget: "select",
+          options: ["open", "waitlist", "full"]
+        }
+      - { label: "Calendar URL", name: "calendarUrl", widget: "string", required: false }
+      - { label: "Body", name: "body", widget: "markdown" }
+
+  - name: "socialHighlights"
+    label: "Social Highlights"
+    folder: "src/content/socialHighlights"
+    create: true
+    slug: "{{slug}}"
+    format: "frontmatter"
+    extension: "md"
+    fields:
+      - {
+          label: "Platform",
+          name: "platform",
+          widget: "select",
+          options: ["instagram", "facebook"]
+        }
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Post URL", name: "postUrl", widget: "string" }
+      - { label: "Thumbnail", name: "thumbnail", widget: "image", required: false }
+      - { label: "Publish Date", name: "publishDate", widget: "datetime" }
+      - { label: "Body", name: "body", widget: "markdown" }
+
+  - name: "pages"
+    label: "Pages"
+    folder: "src/content/pages"
+    create: true
+    slug: "{{slug}}"
+    format: "frontmatter"
+    extension: "md"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Description", name: "description", widget: "text", required: false }
+      - { label: "Body", name: "body", widget: "markdown" }
+
+  - name: "settings"
+    label: "Site Settings"
+    files:
+      - name: "site"
+        label: "Core Site Settings"
+        file: "src/content/siteSettings/site.json"
+        fields:
+          - { label: "Club Name", name: "clubName", widget: "string" }
+          - { label: "Short Name", name: "shortName", widget: "string" }
+          - { label: "Tagline", name: "tagline", widget: "string" }
+          - { label: "Logo Path", name: "logoPath", widget: "string" }
+          - { label: "Contact Email", name: "contactEmail", widget: "string" }
+          - { label: "Instagram URL", name: "instagramUrl", widget: "string" }
+          - { label: "Facebook URL", name: "facebookUrl", widget: "string" }
+          - { label: "Google Calendar Embed URL", name: "googleCalendarEmbedUrl", widget: "string" }
+          - { label: "Google Calendar Public URL", name: "googleCalendarPublicUrl", widget: "string" }
+          - { label: "Calendar ICS URL", name: "calendarIcsUrl", widget: "string" }
+          - { label: "Hero CTA Label", name: "heroCtaLabel", widget: "string" }
+          - { label: "Hero CTA Href", name: "heroCtaHref", widget: "string" }

@@ -1,0 +1,79 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Join | North Calder Colts" description="Enquire about joining North Calder Colts.">
+  <section class="section">
+    <h1>Join North Calder Colts</h1>
+    <p class="lead">Send a joining enquiry and our team will get back to you.</p>
+
+    <form name="join-enquiry" method="POST" action="/join/thanks" data-netlify="true" data-netlify-honeypot="club-bot-field" class="form-shell">
+      <input type="hidden" name="form-name" value="join-enquiry" />
+      <p style="display:none;">
+        <label>Do not fill this out if you are human: <input name="club-bot-field" /></label>
+      </p>
+
+      <div class="form-grid">
+        <div class="field">
+          <label for="parent-name">Parent/Guardian Name</label>
+          <input id="parent-name" name="parentName" type="text" required />
+        </div>
+
+        <div class="field">
+          <label for="email">Email Address</label>
+          <input id="email" name="email" type="email" required />
+        </div>
+
+        <div class="field">
+          <label for="phone">Phone Number</label>
+          <input id="phone" name="phone" type="tel" required />
+        </div>
+
+        <div class="field">
+          <label for="child-name">Child First Name</label>
+          <input id="child-name" name="childFirstName" type="text" required />
+        </div>
+
+        <div class="field">
+          <label for="birth-year">Child Birth Year</label>
+          <select id="birth-year" name="birthYear" required>
+            <option value="">Select year</option>
+            <option value="2017">2017</option>
+            <option value="2018">2018</option>
+            <option value="2019">2019</option>
+            <option value="2020">2020</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="preferred-team">Preferred Team</label>
+          <select id="preferred-team" name="preferredTeam" required>
+            <option value="">Select group</option>
+            <option value="2017s">2017s</option>
+            <option value="2018s">2018s</option>
+            <option value="2019s">2019s</option>
+            <option value="2020s">2020s</option>
+          </select>
+        </div>
+
+        <div class="field full">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" rows="6" required></textarea>
+        </div>
+
+        <div class="field full">
+          <label>
+            <input type="checkbox" name="consent" required />
+            I consent to North Calder Colts contacting me about this enquiry.
+          </label>
+        </div>
+
+        <div class="field full" data-netlify-recaptcha="true"></div>
+      </div>
+
+      <p style="margin-top:1rem;">
+        <button class="button primary" type="submit">Submit Enquiry</button>
+      </p>
+    </form>
+  </section>
+</BaseLayout>

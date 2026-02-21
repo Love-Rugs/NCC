@@ -1,0 +1,21 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import siteSettings from "../content/siteSettings/site.json";
+---
+
+<BaseLayout title="Calendar | North Calder Colts" description="Training sessions, fixtures and events calendar.">
+  <section class="section">
+    <h1>Club Calendar</h1>
+    <p class="lead">Live calendar for sessions and fixtures. Subscribe on your preferred device.</p>
+    <div class="calendar-wrap">
+      <iframe title="North Calder Colts Calendar" src={siteSettings.googleCalendarEmbedUrl}></iframe>
+    </div>
+    <div class="card" style="margin-top:1rem;">
+      <h2>Subscribe</h2>
+      <ul>
+        <li><a href={siteSettings.googleCalendarPublicUrl} target="_blank" rel="noreferrer">Google Calendar</a></li>
+        <li><a href={siteSettings.calendarIcsUrl} target="_blank" rel="noreferrer">Apple / Outlook (.ics)</a></li>
+      </ul>
+    </div>
+  </section>
+</BaseLayout>

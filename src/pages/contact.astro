@@ -1,0 +1,22 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import siteSettings from "../content/siteSettings/site.json";
+---
+
+<BaseLayout title="Contact | North Calder Colts" description="Contact and safeguarding details for North Calder Colts.">
+  <section class="section">
+    <h1>Contact</h1>
+    <div class="grid two">
+      <article class="card">
+        <h2>General Enquiries</h2>
+        <p>Email: <a href={`mailto:${siteSettings.contactEmail}`}>{siteSettings.contactEmail}</a></p>
+        <p>For team joining requests, use the <a href="/join">Join form</a>.</p>
+      </article>
+      <article class="card">
+        <h2>Safeguarding</h2>
+        <p>Player welfare is central to the club. Report any safeguarding concern directly to the club welfare team.</p>
+        <p>Please include key details and your preferred callback contact.</p>
+      </article>
+    </div>
+  </section>
+</BaseLayout>

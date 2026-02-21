@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://comfy-biscotti-e2bfbb.netlify.app/sitemap-index.xml

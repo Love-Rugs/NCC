@@ -1,0 +1,42 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+export async function getStaticPaths() {
+  const teams = await getCollection("teams");
+  return teams.map((team) => ({
+    params: { slug: team.slug },
+    props: { team }
+  }));
+}
+
+const { team } = Astro.props;
+const { Content } = await render(team);
+---
+
+<BaseLayout title={`${team.data.title} | North Calder Colts`} description={team.data.intro}>
+  <article class="section">
+    <span class={`badge ${team.data.status}`}>{team.data.status}</span>
+    <h1>{team.data.title}</h1>
+    <p class="lead">{team.data.intro}</p>
+    <div class="card">
+      <ul>
+        <li><strong>Year group:</strong> {team.data.yearGroup}</li>
+        <li><strong>Training day:</strong> {team.data.trainingDay}</li>
+        <li><strong>Time:</strong> {team.data.trainingTime}</li>
+        <li><strong>Location:</strong> {team.data.trainingLocation}</li>
+        <li><strong>Coach role:</strong> {team.data.coachRole}</li>
+      </ul>
+      {
+        team.data.calendarUrl && (
+          <p>
+            <a href={team.data.calendarUrl} target="_blank" rel="noreferrer">Open team calendar</a>
+          </p>
+        )
+      }
+    </div>
+    <div class="card">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>
