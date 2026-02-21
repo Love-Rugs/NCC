@@ -2,8 +2,6 @@ backend:
   name: github
   repo: Love-Rugs/NCC
   branch: main
-  base_url: https://YOUR-NETLIFY-SITE.netlify.app
-  auth_endpoint: /api/auth
 
 media_folder: "public/images/uploads"
 public_folder: "/images/uploads"

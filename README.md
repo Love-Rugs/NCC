@@ -16,11 +16,11 @@ Modern Astro + Netlify website for North Calder Colts Football Club.
 ## Build
 - `cmd /c npm.cmd run build`
 
-## CMS setup (GitHub OAuth)
-1. In `public/admin/config.yml`, set:
-   - `base_url`: your Netlify site URL
-2. Configure OAuth endpoint (Netlify auth function/provider).
-3. Add required secrets in Netlify environment variables.
+## CMS setup (GitHub OAuth via Netlify)
+1. In Netlify, open your site settings and enable Decap/Netlify OAuth for GitHub.
+2. In GitHub OAuth app settings, add your Netlify site `/admin/` callback URL.
+3. Add OAuth client ID/secret in Netlify where prompted.
+4. Ensure only approved GitHub users/org members can access CMS.
 
 ## Update logo
 Current logo uses `public/images/ncc-logo-placeholder.svg`.
