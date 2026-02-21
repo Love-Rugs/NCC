@@ -1,42 +1,68 @@
 ---
 import { getCollection, render } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import TeamNewsFeed from "../../components/TeamNewsFeed.astro";
+import TeamCalendarPanel from "../../components/TeamCalendarPanel.astro";
+import siteSettings from "../../content/siteSettings/site.json";
 
 export async function getStaticPaths() {
   const teams = await getCollection("teams");
-  return teams.map((team) => ({
-    params: { slug: team.slug },
-    props: { team }
-  }));
+  return teams.map((team) => ({ params: { slug: team.slug }, props: { team } }));
 }
 
 const { team } = Astro.props;
+const allNews = await getCollection("news");
 const { Content } = await render(team);
+const fallbackImage = siteSettings.defaultTeamImage || "/images/stock/team-training.jpg";
 ---
 
-<BaseLayout title={`${team.data.title} | North Calder Colts`} description={team.data.intro}>
-  <article class="section">
-    <span class={`badge ${team.data.status}`}>{team.data.status}</span>
-    <h1>{team.data.title}</h1>
-    <p class="lead">{team.data.intro}</p>
+<BaseLayout title={`${team.data.yearGroup} | North Calder Colts`} description={team.data.intro}>
+  <section class="hero reveal">
+    <div class="inner">
+      <div>
+        <span class={`badge ${team.data.status}`}>{team.data.status}</span>
+        <h1>{team.data.yearGroup} Team Hub</h1>
+        <p>{team.data.intro}</p>
+        <div class="actions">
+          <a class="button primary" href="/join">Join Enquiry</a>
+          <a class="button secondary" href={team.data.calendarPublicUrl} target="_blank" rel="noreferrer">Team Calendar</a>
+        </div>
+      </div>
+      <figure class="hero-media">
+        <img src={team.data.heroImage || fallbackImage} alt={`${team.data.yearGroup} training`} width="1400" height="900" loading="lazy" />
+      </figure>
+    </div>
+  </section>
+
+  <section class="section reveal">
     <div class="card">
+      <h2>Training Details</h2>
       <ul>
-        <li><strong>Year group:</strong> {team.data.yearGroup}</li>
-        <li><strong>Training day:</strong> {team.data.trainingDay}</li>
+        <li><strong>Day:</strong> {team.data.trainingDay}</li>
         <li><strong>Time:</strong> {team.data.trainingTime}</li>
         <li><strong>Location:</strong> {team.data.trainingLocation}</li>
-        <li><strong>Coach role:</strong> {team.data.coachRole}</li>
+        <li><strong>Coach:</strong> {team.data.coachRole}</li>
       </ul>
-      {
-        team.data.calendarUrl && (
-          <p>
-            <a href={team.data.calendarUrl} target="_blank" rel="noreferrer">Open team calendar</a>
-          </p>
-        )
-      }
+      <ul class="inline-list">
+        {team.data.facebookUrl && <li><a href={team.data.facebookUrl} target="_blank" rel="noreferrer">Facebook</a></li>}
+        {team.data.instagramUrl && <li><a href={team.data.instagramUrl} target="_blank" rel="noreferrer">Instagram</a></li>}
+      </ul>
     </div>
+  </section>
+
+  <section class="section reveal">
+    <h2>Team News</h2>
+    <TeamNewsFeed teamScope={team.data.yearGroup} items={allNews} />
+  </section>
+
+  <section class="section reveal">
+    <TeamCalendarPanel title={team.data.yearGroup} embedUrl={team.data.calendarEmbedUrl} publicUrl={team.data.calendarPublicUrl} icsUrl={team.data.calendarIcsUrl} />
+  </section>
+
+  <section class="section reveal">
     <div class="card">
+      <h2>Coach Notes</h2>
       <Content />
     </div>
-  </article>
+  </section>
 </BaseLayout>

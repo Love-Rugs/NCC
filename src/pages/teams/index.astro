@@ -5,21 +5,22 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 const teams = (await getCollection("teams")).sort((a, b) => a.data.yearGroup.localeCompare(b.data.yearGroup));
 ---
 
-<BaseLayout title="Teams | North Calder Colts" description="Explore North Calder Colts teams by birth year group.">
-  <section class="section">
-    <h1>Team Groups</h1>
-    <p class="lead">Select your age group for training info, availability and team updates.</p>
+<BaseLayout title="Teams | North Calder Colts" description="Coach-managed hubs for each North Calder Colts year group.">
+  <section class="section reveal">
+    <h1>Team Hubs</h1>
+    <p class="lead">Each team page includes age-group news, dedicated calendar sync, and social updates.</p>
     <div class="grid two">
       {
         teams.map((team) => (
-          <article class="card">
+          <article class="card card-feature reveal">
             <span class={`badge ${team.data.status}`}>{team.data.status}</span>
-            <h2>{team.data.title}</h2>
+            <h2>{team.data.yearGroup}</h2>
             <p>{team.data.intro}</p>
-            <p class="muted">
-              {team.data.trainingDay} | {team.data.trainingTime}
-            </p>
-            <a href={`/teams/${team.slug}`}>Open team page</a>
+            <ul class="inline-list muted">
+              <li>{team.data.trainingDay}</li>
+              <li>{team.data.trainingTime}</li>
+            </ul>
+            <a href={`/teams/${team.slug}`}>Open Team Hub</a>
           </article>
         ))
       }

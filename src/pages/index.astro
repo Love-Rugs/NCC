@@ -5,84 +5,85 @@ import siteSettings from "../content/siteSettings/site.json";
 
 const teams = (await getCollection("teams")).sort((a, b) => a.data.yearGroup.localeCompare(b.data.yearGroup));
 const news = (await getCollection("news"))
-  .sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime())
-  .slice(0, 3);
+  .sort((a, b) => Number(b.data.featured) - Number(a.data.featured) || b.data.publishDate.getTime() - a.data.publishDate.getTime())
+  .slice(0, 4);
 const highlights = (await getCollection("socialHighlights"))
   .sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime())
-  .slice(0, 3);
+  .slice(0, 4);
 ---
 
 <BaseLayout title="North Calder Colts | Football Club" description={siteSettings.tagline}>
-  <section class="hero">
+  <section class="hero reveal">
     <div class="inner">
       <div>
-        <h1>North Calder Colts Football Club</h1>
+        <h1>North Calder Colts</h1>
         <p>{siteSettings.tagline}</p>
         <div class="actions">
           <a class="button primary" href={siteSettings.heroCtaHref}>{siteSettings.heroCtaLabel}</a>
-          <a class="button secondary" href="/calendar">View Calendar</a>
+          <a class="button secondary" href="/teams">Explore Teams</a>
+        </div>
+        <div class="kpis">
+          <div class="kpi"><strong>4</strong><span>Year Groups</span></div>
+          <div class="kpi"><strong>100%</strong><span>Volunteer Coaches</span></div>
+          <div class="kpi"><strong>1 Club</strong><span>Shared Identity</span></div>
         </div>
       </div>
-      <div class="card">
-        <h3>Current Year Groups</h3>
-        <ul class="inline-list">
-          {teams.map((team) => <li><a href={`/teams/${team.slug}`}>{team.data.yearGroup}</a></li>)}
-        </ul>
-        <p class="muted">Training updates and parent information for each squad.</p>
-      </div>
+      <figure class="hero-media">
+        <img src="/images/stock/hero-football.jpg" alt="Youth football training action" width="1400" height="933" loading="eager" />
+      </figure>
     </div>
   </section>
 
-  <section class="section">
-    <h2>Team Updates</h2>
-    <p class="lead">Find the right squad by birth year and check current joining status.</p>
+  <section class="section reveal">
+    <header class="section-head">
+      <h2>Find Your Team</h2>
+      <p class="lead">Each age group has coach-managed updates, team calendars, and social channels.</p>
+    </header>
     <div class="grid two">
-      {
-        teams.map((team) => (
-          <article class="card">
-            <span class={`badge ${team.data.status}`}>{team.data.status}</span>
-            <h3>{team.data.title}</h3>
-            <p>{team.data.intro}</p>
-            <p class="muted">
-              {team.data.trainingDay} | {team.data.trainingTime}
-            </p>
-            <a href={`/teams/${team.slug}`}>View {team.data.yearGroup} details</a>
-          </article>
-        ))
-      }
+      {teams.map((team) => (
+        <article class="card card-feature reveal">
+          <span class={`badge ${team.data.status}`}>{team.data.status}</span>
+          <h3>{team.data.yearGroup}</h3>
+          <p>{team.data.intro}</p>
+          <p class="muted">{team.data.trainingDay} | {team.data.trainingTime}</p>
+          <a href={`/teams/${team.slug}`}>Open {team.data.yearGroup} Hub</a>
+        </article>
+      ))}
     </div>
   </section>
 
-  <section class="section">
-    <h2>Latest News</h2>
-    <div class="grid three">
-      {
-        news.map((item) => (
-          <article class="card">
-            <p class="muted">{item.data.publishDate.toLocaleDateString("en-GB")}</p>
-            <h3>{item.data.title}</h3>
-            <p>{item.data.summary}</p>
-            <a href={`/news/${item.slug}`}>Read update</a>
-          </article>
-        ))
-      }
+  <section class="section reveal">
+    <header class="section-head">
+      <h2>Featured News</h2>
+      <p class="lead">Club-wide announcements and team-tagged posts from your coaching groups.</p>
+    </header>
+    <div class="grid two">
+      {news.map((item) => (
+        <article class="card card-news reveal">
+          <p class="muted">{item.data.publishDate.toLocaleDateString("en-GB")}</p>
+          <h3>{item.data.title}</h3>
+          <p>{item.data.summary}</p>
+          <div class="chips">{item.data.teamScopes.map((scope) => <span class="chip">{scope}</span>)}</div>
+          <a href={`/news/${item.slug}`}>Read update</a>
+        </article>
+      ))}
     </div>
   </section>
 
-  <section class="section">
-    <h2>Social Highlights</h2>
-    <p class="lead">Manual highlights from Instagram and Facebook to keep the site fast and reliable.</p>
-    <div class="grid three">
-      {
-        highlights.map((item) => (
-          <article class="card">
-            <span class="badge">{item.data.platform}</span>
-            <h3>{item.data.title}</h3>
-            <p class="muted">{item.data.publishDate.toLocaleDateString("en-GB")}</p>
-            <a href={item.data.postUrl} target="_blank" rel="noreferrer">Open post</a>
-          </article>
-        ))
-      }
+  <section class="section reveal">
+    <header class="section-head">
+      <h2>Social Snapshots</h2>
+      <p class="lead">Quick links to latest social moments while keeping the website fast.</p>
+    </header>
+    <div class="grid two">
+      {highlights.map((item) => (
+        <article class="card reveal">
+          <span class="chip">{item.data.platform}</span>
+          <h3>{item.data.title}</h3>
+          <p class="muted">{item.data.publishDate.toLocaleDateString("en-GB")}</p>
+          <a href={item.data.postUrl} target="_blank" rel="noreferrer">Open post</a>
+        </article>
+      ))}
     </div>
   </section>
 </BaseLayout>

@@ -4,10 +4,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 
 export async function getStaticPaths() {
   const news = await getCollection("news");
-  return news.map((item) => ({
-    params: { slug: item.slug },
-    props: { item }
-  }));
+  return news.map((item) => ({ params: { slug: item.slug }, props: { item } }));
 }
 
 const { item } = Astro.props;
@@ -15,11 +12,14 @@ const { Content } = await render(item);
 ---
 
 <BaseLayout title={`${item.data.title} | North Calder Colts`} description={item.data.summary}>
-  <article class="section">
+  <article class="section reveal">
     <p class="muted">{item.data.publishDate.toLocaleDateString("en-GB")}</p>
     <h1>{item.data.title}</h1>
     <p class="lead">{item.data.summary}</p>
-    <div class="card">
+    <div class="chips" style="margin-bottom: 1rem;">
+      {item.data.teamScopes.map((scope) => <span class="chip">{scope}</span>)}
+    </div>
+    <div class="card reveal">
       <Content />
     </div>
   </article>

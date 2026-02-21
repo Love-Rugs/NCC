@@ -13,18 +13,15 @@ const { clubName, contactEmail, instagramUrl, facebookUrl } = Astro.props;
   <div class="container footer-grid">
     <section>
       <h2>{clubName}</h2>
-      <p class="muted">
-        Grassroots football for North Calder families. Training updates, team info, and joining enquiries.
-      </p>
-      <p>
-        Contact: <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
-      </p>
+      <p class="muted">Development-first football, positive coaching, and strong community values.</p>
+      <p>Contact: <a href={`mailto:${contactEmail}`}>{contactEmail}</a></p>
     </section>
     <section>
-      <h3>Follow The Colts</h3>
+      <h3>Community Channels</h3>
       <ul class="inline-list">
         <li><a href={instagramUrl} target="_blank" rel="noreferrer">Instagram</a></li>
         <li><a href={facebookUrl} target="_blank" rel="noreferrer">Facebook</a></li>
+        <li><a href="/admin">Coach CMS</a></li>
       </ul>
     </section>
   </div>

@@ -2,24 +2,49 @@
 import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
+const scopes = ["club", "2017s", "2018s", "2019s", "2020s"] as const;
 const news = (await getCollection("news")).sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime());
 ---
 
-<BaseLayout title="News | North Calder Colts" description="Latest North Calder Colts updates and announcements.">
-  <section class="section">
-    <h1>Club News</h1>
-    <p class="lead">Latest club and team updates for parents and players.</p>
-    <div class="grid two">
+<BaseLayout title="News | North Calder Colts" description="Club and team updates across North Calder Colts.">
+  <section class="section reveal">
+    <h1>News & Updates</h1>
+    <p class="lead">Filter by team to view updates relevant to your child.</p>
+
+    <ul class="chips" id="scope-filters">
+      {scopes.map((scope) => (
+        <li><button class="chip filter-chip" data-scope={scope} type="button">{scope}</button></li>
+      ))}
+    </ul>
+
+    <div class="grid two" id="news-grid" style="margin-top: 1rem;">
       {
         news.map((item) => (
-          <article class="card">
+          <article class="card card-news reveal" data-scopes={item.data.teamScopes.join("|")}>
             <p class="muted">{item.data.publishDate.toLocaleDateString("en-GB")}</p>
             <h2>{item.data.title}</h2>
             <p>{item.data.summary}</p>
+            <div class="chips">{item.data.teamScopes.map((scope) => <span class="chip">{scope}</span>)}</div>
             <a href={`/news/${item.slug}`}>Read full story</a>
           </article>
         ))
       }
     </div>
   </section>
+
+  <script is:inline>
+    (() => {
+      const chips = document.querySelectorAll('.filter-chip');
+      const cards = document.querySelectorAll('#news-grid article');
+      const selectScope = (scope) => {
+        chips.forEach((chip) => chip.classList.toggle('active', chip.dataset.scope === scope));
+        cards.forEach((card) => {
+          const list = String(card.dataset.scopes || '').split('|');
+          card.style.display = scope === 'club' || list.includes(scope) || list.includes('club') ? '' : 'none';
+        });
+      };
+      chips.forEach((chip) => chip.addEventListener('click', () => selectScope(chip.dataset.scope)));
+      selectScope('club');
+    })();
+  </script>
 </BaseLayout>

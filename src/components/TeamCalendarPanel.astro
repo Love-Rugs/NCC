@@ -1,0 +1,21 @@
+---
+interface Props {
+  embedUrl: string;
+  publicUrl: string;
+  icsUrl: string;
+  title: string;
+}
+
+const { embedUrl, publicUrl, icsUrl, title } = Astro.props;
+---
+
+<section class="card card-calendar reveal">
+  <h3>{title} Calendar</h3>
+  <div class="calendar-wrap compact">
+    <iframe src={embedUrl} title={`${title} calendar`}></iframe>
+  </div>
+  <ul class="inline-list">
+    <li><a href={publicUrl} target="_blank" rel="noreferrer">Google Calendar</a></li>
+    <li><a href={icsUrl} target="_blank" rel="noreferrer">Apple/Outlook (.ics)</a></li>
+  </ul>
+</section>

@@ -1,5 +1,7 @@
 import { defineCollection, z } from "astro:content";
 
+const teamScope = z.enum(["2017s", "2018s", "2019s", "2020s", "club"]);
+
 const news = defineCollection({
   type: "content",
   schema: z.object({
@@ -7,7 +9,9 @@ const news = defineCollection({
     summary: z.string(),
     publishDate: z.coerce.date(),
     coverImage: z.string().optional(),
-    tags: z.array(z.string()).default([])
+    tags: z.array(z.string()).default([]),
+    teamScopes: z.array(teamScope).default(["club"]),
+    featured: z.boolean().default(false)
   })
 });
 
@@ -22,7 +26,12 @@ const teams = defineCollection({
     coachRole: z.string(),
     status: z.enum(["open", "waitlist", "full"]),
     intro: z.string(),
-    calendarUrl: z.string().url().optional()
+    calendarEmbedUrl: z.string().url(),
+    calendarPublicUrl: z.string().url(),
+    calendarIcsUrl: z.string().url(),
+    facebookUrl: z.string().url().optional(),
+    instagramUrl: z.string().url().optional(),
+    heroImage: z.string().optional()
   })
 });
 
@@ -59,7 +68,10 @@ const siteSettings = defineCollection({
     googleCalendarPublicUrl: z.string().url(),
     calendarIcsUrl: z.string().url(),
     heroCtaLabel: z.string(),
-    heroCtaHref: z.string()
+    heroCtaHref: z.string(),
+    joinCutoffMonth: z.number().int().min(1).max(12),
+    heroImage: z.string().url().optional(),
+    defaultTeamImage: z.string().url().optional()
   })
 });
 

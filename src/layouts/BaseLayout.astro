@@ -13,7 +13,7 @@ const { title, description = siteSettings.tagline } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en-GB">
+<html lang="en-GB" data-join-cutoff-month={String(siteSettings.joinCutoffMonth)}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -23,24 +23,54 @@ const { title, description = siteSettings.tagline } = Astro.props;
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <meta property="og:image" content={siteSettings.logoPath} />
-    <link rel="icon" href={siteSettings.logoPath} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&family=Sora:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet" />
   </head>
   <body>
     <script is:inline>
       (() => {
         const hash = window.location.hash || "";
-        const isIdentityToken =
-          hash.includes("recovery_token=") ||
-          hash.includes("confirmation_token=") ||
-          hash.includes("invite_token=");
+        const isIdentityToken = hash.includes("recovery_token=") || hash.includes("confirmation_token=") || hash.includes("invite_token=");
         if (isIdentityToken && !window.location.pathname.startsWith("/admin")) {
           window.location.replace(`/admin/${hash}`);
+          return;
+        }
+
+        const setup = () => {
+          const toggle = document.querySelector(".menu-toggle");
+          const nav = document.getElementById("site-nav");
+          if (toggle && nav) {
+            toggle.addEventListener("click", () => {
+              const isOpen = nav.classList.toggle("open");
+              toggle.setAttribute("aria-expanded", String(isOpen));
+            });
+          }
+
+          if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+            const observer = new IntersectionObserver(
+              (entries) => {
+                for (const entry of entries) {
+                  if (entry.isIntersecting) {
+                    entry.target.classList.add("in-view");
+                    observer.unobserve(entry.target);
+                  }
+                }
+              },
+              { threshold: 0.14 }
+            );
+
+            document.querySelectorAll(".reveal").forEach((node) => observer.observe(node));
+          } else {
+            document.querySelectorAll(".reveal").forEach((node) => node.classList.add("in-view"));
+          }
+        };
+
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", setup, { once: true });
+        } else {
+          setup();
         }
       })();
     </script>
@@ -51,11 +81,6 @@ const { title, description = siteSettings.tagline } = Astro.props;
         <slot />
       </div>
     </main>
-    <Footer
-      clubName={siteSettings.shortName}
-      contactEmail={siteSettings.contactEmail}
-      instagramUrl={siteSettings.instagramUrl}
-      facebookUrl={siteSettings.facebookUrl}
-    />
+    <Footer clubName={siteSettings.shortName} contactEmail={siteSettings.contactEmail} instagramUrl={siteSettings.instagramUrl} facebookUrl={siteSettings.facebookUrl} />
   </body>
 </html>

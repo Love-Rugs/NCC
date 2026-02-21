@@ -1,21 +1,39 @@
 ---
+import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import siteSettings from "../content/siteSettings/site.json";
+
+const teams = await getCollection("teams");
 ---
 
-<BaseLayout title="Calendar | North Calder Colts" description="Training sessions, fixtures and events calendar.">
-  <section class="section">
-    <h1>Club Calendar</h1>
-    <p class="lead">Live calendar for sessions and fixtures. Subscribe on your preferred device.</p>
-    <div class="calendar-wrap">
+<BaseLayout title="Calendar | North Calder Colts" description="Club-wide and team-specific calendar sync links.">
+  <section class="section reveal">
+    <h1>Calendar Centre</h1>
+    <p class="lead">Use the club calendar or jump into your team-specific schedule.</p>
+    <div class="calendar-wrap reveal">
       <iframe title="North Calder Colts Calendar" src={siteSettings.googleCalendarEmbedUrl}></iframe>
     </div>
     <div class="card" style="margin-top:1rem;">
-      <h2>Subscribe</h2>
-      <ul>
-        <li><a href={siteSettings.googleCalendarPublicUrl} target="_blank" rel="noreferrer">Google Calendar</a></li>
-        <li><a href={siteSettings.calendarIcsUrl} target="_blank" rel="noreferrer">Apple / Outlook (.ics)</a></li>
+      <ul class="inline-list">
+        <li><a href={siteSettings.googleCalendarPublicUrl} target="_blank" rel="noreferrer">Club Google Calendar</a></li>
+        <li><a href={siteSettings.calendarIcsUrl} target="_blank" rel="noreferrer">Club ICS</a></li>
       </ul>
+    </div>
+  </section>
+
+  <section class="section reveal">
+    <h2>Team Calendars</h2>
+    <div class="grid two">
+      {teams.map((team) => (
+        <article class="card reveal">
+          <h3>{team.data.yearGroup}</h3>
+          <ul>
+            <li><a href={team.data.calendarPublicUrl} target="_blank" rel="noreferrer">Google Calendar</a></li>
+            <li><a href={team.data.calendarIcsUrl} target="_blank" rel="noreferrer">Apple/Outlook (.ics)</a></li>
+          </ul>
+          <a href={`/teams/${team.slug}`}>Open team page</a>
+        </article>
+      ))}
     </div>
   </section>
 </BaseLayout>

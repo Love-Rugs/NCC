@@ -1,17 +1,22 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import siteSettings from "../content/siteSettings/site.json";
+import { routeTeamFromDob } from "../lib/team-routing";
+
+const sample = routeTeamFromDob({ birthMonth: 3, birthYear: 2019, joinCutoffMonth: siteSettings.joinCutoffMonth });
 ---
 
 <BaseLayout title="Join | North Calder Colts" description="Enquire about joining North Calder Colts.">
-  <section class="section">
+  <section class="section reveal">
     <h1>Join North Calder Colts</h1>
-    <p class="lead">Send a joining enquiry and our team will get back to you.</p>
+    <p class="lead">Enter DOB month and year. We automatically determine team eligibility.</p>
+    <p class="form-note">Cutoff policy: Jan-Mar may be eligible for previous or current year group. Example: {sample.message}</p>
 
     <form name="join-enquiry" method="POST" action="/join/thanks" data-netlify="true" data-netlify-honeypot="club-bot-field" class="form-shell">
       <input type="hidden" name="form-name" value="join-enquiry" />
-      <p style="display:none;">
-        <label>Do not fill this out if you are human: <input name="club-bot-field" /></label>
-      </p>
+      <input type="hidden" name="assignedTeam" id="assigned-team" value="" />
+      <input type="hidden" name="eligibleTeams" id="eligible-teams" value="" />
+      <p style="display:none;"><label>Do not fill this out if you are human: <input name="club-bot-field" /></label></p>
 
       <div class="form-grid">
         <div class="field">
@@ -35,25 +40,39 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         </div>
 
         <div class="field">
-          <label for="birth-year">Child Birth Year</label>
+          <label for="birth-month">Birth Month</label>
+          <select id="birth-month" name="birthMonth" required>
+            <option value="">Select month</option>
+            <option value="1">January</option>
+            <option value="2">February</option>
+            <option value="3">March</option>
+            <option value="4">April</option>
+            <option value="5">May</option>
+            <option value="6">June</option>
+            <option value="7">July</option>
+            <option value="8">August</option>
+            <option value="9">September</option>
+            <option value="10">October</option>
+            <option value="11">November</option>
+            <option value="12">December</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="birth-year">Birth Year</label>
           <select id="birth-year" name="birthYear" required>
             <option value="">Select year</option>
             <option value="2017">2017</option>
             <option value="2018">2018</option>
             <option value="2019">2019</option>
             <option value="2020">2020</option>
+            <option value="2021">2021</option>
           </select>
         </div>
 
-        <div class="field">
-          <label for="preferred-team">Preferred Team</label>
-          <select id="preferred-team" name="preferredTeam" required>
-            <option value="">Select group</option>
-            <option value="2017s">2017s</option>
-            <option value="2018s">2018s</option>
-            <option value="2019s">2019s</option>
-            <option value="2020s">2020s</option>
-          </select>
+        <div class="field full">
+          <label for="eligibility-view">Assigned Team</label>
+          <input id="eligibility-view" type="text" value="Select DOB month/year" readonly />
         </div>
 
         <div class="field full">
@@ -62,18 +81,58 @@ import BaseLayout from "../layouts/BaseLayout.astro";
         </div>
 
         <div class="field full">
-          <label>
-            <input type="checkbox" name="consent" required />
-            I consent to North Calder Colts contacting me about this enquiry.
-          </label>
+          <label><input type="checkbox" name="consent" required /> I consent to North Calder Colts contacting me about this enquiry.</label>
         </div>
 
         <div class="field full" data-netlify-recaptcha="true"></div>
       </div>
 
-      <p style="margin-top:1rem;">
-        <button class="button primary" type="submit">Submit Enquiry</button>
-      </p>
+      <p style="margin-top:1rem;"><button class="button primary" type="submit">Submit Enquiry</button></p>
     </form>
   </section>
+
+  <script is:inline>
+    (() => {
+      const cutoff = Number(document.documentElement.getAttribute('data-join-cutoff-month') || 3);
+      const monthEl = document.getElementById('birth-month');
+      const yearEl = document.getElementById('birth-year');
+      const assignedEl = document.getElementById('assigned-team');
+      const eligibleEl = document.getElementById('eligible-teams');
+      const viewEl = document.getElementById('eligibility-view');
+      const teamYears = [2017, 2018, 2019, 2020];
+
+      const toLabel = (year) => `${year}s`;
+
+      const update = () => {
+        const month = Number(monthEl.value);
+        const year = Number(yearEl.value);
+        if (!month || !year) {
+          assignedEl.value = '';
+          eligibleEl.value = '';
+          viewEl.value = 'Select DOB month/year';
+          return;
+        }
+
+        if (!teamYears.includes(year)) {
+          assignedEl.value = 'out_of_range';
+          eligibleEl.value = '';
+          viewEl.value = 'Outside listed year groups; submit and we will advise.';
+          return;
+        }
+
+        const eligible = [toLabel(year)];
+        if (month <= cutoff && teamYears.includes(year - 1)) {
+          eligible.unshift(toLabel(year - 1));
+        }
+
+        assignedEl.value = eligible[eligible.length - 1];
+        eligibleEl.value = eligible.join(', ');
+        viewEl.value = eligible.length > 1 ? `Eligible: ${eligible.join(' or ')}` : `Assigned: ${eligible[0]}`;
+      };
+
+      monthEl.addEventListener('change', update);
+      yearEl.addEventListener('change', update);
+      update();
+    })();
+  </script>
 </BaseLayout>

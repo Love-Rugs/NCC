@@ -2,8 +2,10 @@
 title: "North Calder Colts Website Is Live"
 summary: "Welcome to the new digital home of North Calder Colts, with team updates, fixtures and parent info."
 publishDate: 2026-02-21
-coverImage: "/images/hero-texture.svg"
+coverImage: "/images/stock/hero-football.jpg"
 tags: ["club", "announcement"]
+teamScopes: ["club"]
+featured: true
 ---
 Welcome to the official North Calder Colts website.
 
