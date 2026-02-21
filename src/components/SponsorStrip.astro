@@ -1,0 +1,36 @@
+---
+import { getCollection } from "astro:content";
+
+interface Props {
+  title?: string;
+}
+
+const { title = "Club Partners" } = Astro.props;
+
+const sponsors = (await getCollection("sponsors"))
+  .filter((s) => s.data.isActive)
+  .sort((a, b) => {
+    const ao = a.data.featuredOrder ?? Number.MAX_SAFE_INTEGER;
+    const bo = b.data.featuredOrder ?? Number.MAX_SAFE_INTEGER;
+    if (ao !== bo) return ao - bo;
+    return (b.data.startedOn?.getTime() ?? 0) - (a.data.startedOn?.getTime() ?? 0);
+  })
+  .slice(0, 12);
+---
+
+{sponsors.length > 0 && (
+  <section class="sponsor-strip reveal" aria-label="Club partner logos">
+    <div class="container sponsor-strip-inner">
+      <p class="sponsor-strip-title">{title}</p>
+      <div class="sponsor-strip-logos">
+        {
+          sponsors.map((sponsor) => (
+            <a href={sponsor.data.ctaUrl ?? sponsor.data.websiteUrl ?? "/sponsorship"} target="_blank" rel="noreferrer" aria-label={`${sponsor.data.name} sponsor`}>
+              <img src={sponsor.data.logoOrImage} alt={sponsor.data.name} loading="lazy" width="180" height="72" />
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+)}

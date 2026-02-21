@@ -42,6 +42,9 @@ const highlights = (await getCollection("socialHighlights"))
     <div class="grid two">
       {teams.map((team) => (
         <article class="card card-feature reveal">
+          <figure class="team-thumb">
+            <img src={team.data.heroImage ?? "/images/stock/team-training.jpg"} alt={`${team.data.yearGroup} team session`} width="1200" height="675" loading="lazy" />
+          </figure>
           <span class={`badge ${team.data.status}`}>{team.data.status}</span>
           <h3>{team.data.yearGroup}</h3>
           <p>{team.data.intro}</p>

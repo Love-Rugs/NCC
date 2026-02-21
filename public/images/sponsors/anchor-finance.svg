@@ -1,0 +1,9 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 675'>
+  <rect width='1200' height='675' fill='#0b223f'/>
+  <rect x='80' y='130' width='190' height='190' rx='24' fill='#8de1ff' fill-opacity='0.18' stroke='#8de1ff' stroke-width='8'/>
+  <circle cx='175' cy='225' r='48' fill='#8de1ff'/>
+  <rect x='340' y='190' width='760' height='42' rx='8' fill='#ffffff' fill-opacity='0.16'/>
+  <rect x='340' y='254' width='560' height='30' rx='8' fill='#ffffff' fill-opacity='0.1'/>
+  <text x='340' y='430' font-family='Outfit, Arial, sans-serif' font-size='88' fill='#ffffff' font-weight='700'>Anchor Finance</text>
+  <text x='340' y='495' font-family='Outfit, Arial, sans-serif' font-size='34' fill='#8de1ff' letter-spacing='3'>PROUD PARTNER</text>
+</svg>

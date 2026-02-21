@@ -14,6 +14,7 @@ const { team } = Astro.props;
 const allNews = await getCollection("news");
 const { Content } = await render(team);
 const fallbackImage = siteSettings.defaultTeamImage || "/images/stock/team-training.jpg";
+const teamGalleryImage = `/images/stock/teams/${team.data.yearGroup}/training.jpg`;
 ---
 
 <BaseLayout title={`${team.data.yearGroup} | North Calder Colts`} description={team.data.intro}>
@@ -47,6 +48,9 @@ const fallbackImage = siteSettings.defaultTeamImage || "/images/stock/team-train
         {team.data.facebookUrl && <li><a href={team.data.facebookUrl} target="_blank" rel="noreferrer">Facebook</a></li>}
         {team.data.instagramUrl && <li><a href={team.data.instagramUrl} target="_blank" rel="noreferrer">Instagram</a></li>}
       </ul>
+      <figure class="team-detail-image">
+        <img src={teamGalleryImage} alt={`${team.data.yearGroup} training detail`} width="1200" height="675" loading="lazy" />
+      </figure>
     </div>
   </section>
 

@@ -64,9 +64,9 @@ collections:
     format: "frontmatter"
     extension: "md"
     fields:
-      - { label: "Name", name: "name", widget: "string" }
-      - { label: "Logo or Image", name: "logoOrImage", widget: "image" }
-      - { label: "Blurb", name: "blurb", widget: "text", hint: "Keep this to around 140 characters for clean cards." }
+      - { label: "Name", name: "name", widget: "string", hint: "Seeded entries are fictional demo sponsors for layout only." }
+      - { label: "Logo or Image", name: "logoOrImage", widget: "image", hint: "Recommended: 1200x675 for consistent card/strip quality." }
+      - { label: "Blurb", name: "blurb", widget: "text", hint: "Target <= 140 characters for clean cards." }
       - { label: "Sponsorship Type", name: "sponsorshipType", widget: "select", options: ["main_kit", "team_sponsor", "social_supporter", "event_festival", "other"] }
       - { label: "Team Scope", name: "teamScope", widget: "select", options: ["club", "2017s", "2018s", "2019s", "2020s"] }
       - { label: "What They Sponsored", name: "whatTheySponsored", widget: "string", hint: "Example: 2019s away kit + cones." }

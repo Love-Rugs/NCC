@@ -111,6 +111,30 @@ img { max-width: 100%; height: auto; }
 }
 .card-feature { background: linear-gradient(165deg, #fff, #f1f7ff); }
 .card h3, .card h2 { margin: 0 0 0.4rem; }
+.team-thumb {
+  margin: -1rem -1rem 0.8rem;
+  border-radius: 14px 14px 0 0;
+  overflow: hidden;
+  border-bottom: 1px solid #d5e3f3;
+}
+.team-thumb img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  display: block;
+}
+.team-detail-image {
+  margin-top: 0.9rem;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #d5e3f3;
+}
+.team-detail-image img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  display: block;
+}
 .kpis { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 0.8rem; margin-top: 1.2rem; }
 .kpi { border-radius: 14px; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.18); padding: 0.65rem; }
 .kpi strong { display: block; font-size: 1.45rem; font-family: "Rajdhani", sans-serif; }
@@ -144,9 +168,59 @@ input:focus, textarea:focus, select:focus { outline: 2px solid var(--sky-400); o
 .footer-grid { display: grid; grid-template-columns: 1.2fr .8fr; gap: 1rem; }
 .muted { color: var(--text-700); }
 
+.sponsor-strip {
+  margin-top: 2rem;
+  background: linear-gradient(180deg, #091325 0%, #101d39 100%);
+  border-top: 1px solid rgba(147, 197, 253, 0.2);
+  border-bottom: 1px solid rgba(147, 197, 253, 0.2);
+}
+
+.sponsor-strip-inner {
+  padding: 1rem 0 1.15rem;
+}
+
+.sponsor-strip-title {
+  margin: 0 0 0.7rem;
+  color: #d2e8ff;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.sponsor-strip-logos {
+  display: grid;
+  gap: 0.7rem;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+.sponsor-strip-logos a {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 0.45rem;
+  min-height: 64px;
+  display: grid;
+  place-items: center;
+}
+
+.sponsor-strip-logos img {
+  width: 100%;
+  max-height: 46px;
+  object-fit: contain;
+  filter: grayscale(1) brightness(1.25);
+  opacity: 0.9;
+}
+
+.sponsor-strip-logos a:hover img {
+  filter: grayscale(0.2) brightness(1.1);
+  opacity: 1;
+}
+
 @media (max-width: 980px) {
   .hero .inner, .grid.three, .kpis, .footer-grid { grid-template-columns: 1fr; }
   .grid.two, .form-grid { grid-template-columns: 1fr; }
+  .sponsor-strip-logos { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .menu-toggle { display: inline-flex; }
   .nav {
     position: absolute; left: 0; right: 0; top: 78px; background: #fff; border-bottom: 1px solid #d5e3f3;

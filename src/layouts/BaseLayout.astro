@@ -1,15 +1,17 @@
 ---
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import SponsorStrip from "../components/SponsorStrip.astro";
 import "../styles/global.css";
 import siteSettings from "../content/siteSettings/site.json";
 
 interface Props {
   title: string;
   description?: string;
+  showSponsorStrip?: boolean;
 }
 
-const { title, description = siteSettings.tagline } = Astro.props;
+const { title, description = siteSettings.tagline, showSponsorStrip = true } = Astro.props;
 ---
 
 <!doctype html>
@@ -81,6 +83,7 @@ const { title, description = siteSettings.tagline } = Astro.props;
         <slot />
       </div>
     </main>
+    {showSponsorStrip && <SponsorStrip />}
     <Footer clubName={siteSettings.shortName} contactEmail={siteSettings.contactEmail} instagramUrl={siteSettings.instagramUrl} facebookUrl={siteSettings.facebookUrl} />
   </body>
 </html>
