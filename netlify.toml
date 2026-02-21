@@ -13,3 +13,13 @@
   from = "/thanks"
   to = "/join/thanks"
   status = 301
+
+[[redirects]]
+  from = "/values"
+  to = "/about#values"
+  status = 301
+
+[[redirects]]
+  from = "/code-of-conduct"
+  to = "/about#conduct"
+  status = 301
